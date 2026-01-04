@@ -1,13 +1,17 @@
-{ config, pkgs, inputs, vars, outputs, ... }:
-
 {
-  imports =
-    [ 
-      inputs.home-manager.nixosModules.home-manager
-      ./hardware-conf.nix
-      ./../../modules/nixos/desktop.nix
-      ./../../modules/nixos/base.nix
-    ];
+  config,
+  pkgs,
+  inputs,
+  vars,
+  outputs,
+  ...
+}: {
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    ./hardware-conf.nix
+    ./../../modules/nixos/desktop.nix
+    ./../../modules/nixos/base.nix
+  ];
 
   home-manager = {
     extraSpecialArgs = {inherit inputs outputs vars;};
@@ -21,7 +25,7 @@
       };
     };
   };
- 
+
   networking.hostName = "yoga";
   system.stateVersion = "25.11";
 }

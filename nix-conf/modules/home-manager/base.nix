@@ -1,49 +1,16 @@
-{ lib, config, pkgs, vars, ... }:
-
 {
+  lib,
+  config,
+  pkgs,
+  vars,
+  ...
+}: {
+  imports = [
+    ./_packages.nix
+  ];
+
   home.username = "${vars.username}";
   home.homeDirectory = lib.mkForce "/home/${vars.username}";
-
-  home.packages = with pkgs; [
-    kdePackages.kate
-    windsurf
-    git
-    direnv
-    fastfetch
-    nnn
-    firefox
-    zip
-    xz
-    unzip
-    p7zip
-    ripgrep
-    jq
-    yq-go
-    eza
-    fzf
-    mtr 
-    iperf3
-    dnsutils
-    ldns
-    aria2
-    socat
-    nmap
-    ipcalc
-    cowsay
-    file
-    which
-    tree
-    gnused
-    gnutar
-    gawk
-    zstd
-    gnupg
-    btop
-    lm_sensors
-    ethtool
-    pciutils
-    usbutils
-  ];
 
   # basic configuration of git, please change to your own
   programs.git = {
@@ -51,7 +18,6 @@
     userName = "${vars.fullName}";
     userEmail = "${vars.email}";
   };
-
 
   programs.bash = {
     enable = true;
