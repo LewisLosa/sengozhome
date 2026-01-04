@@ -40,7 +40,8 @@
     };
   };
 
-  users.mutableUsers = false;
+  # TODO After configuring sops-nix, change the value of users.mutableUsers to false and uncomment hashedPassword line (add file path)
+  users.mutableUsers = true;
   users.users.${vars.username} = {
     isNormalUser = true;
     description = vars.username;
@@ -49,6 +50,7 @@
       vars.sshPublicKey
     ];
     shell = pkgs.zsh;
+    # hashedPasswordFile = "";
   };
 
   services = {

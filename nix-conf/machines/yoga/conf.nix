@@ -21,6 +21,7 @@
       ${vars.username} = {
         imports = [
           ./../../modules/home-manager/base.nix
+          ./../../modules/home-manager/zen.nix
         ];
       };
     };

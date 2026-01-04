@@ -1,8 +1,31 @@
-{ pkgs, ... }:
-
 {
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [
+    inputs.zen-browser.homeModules.beta
+  ];
   programs.zen-browser = {
     enable = true;
+
+    profiles.default = {
+      extensions.packages = with inputs.firefox-addons.packages.${pkgs.system}; [
+        ublock-origin
+        bitwarden
+        darkreader
+        sponsorblock
+        privacy-badger
+      ];
+
+      settings = {
+        browser = {
+          tabs.warnOnClose = false;
+          download.panel.shown = false;
+        };
+      };
+    };
+
     policies = {
       AutofillAddressEnabled = false;
       AutofillCreditCardEnabled = false;
@@ -14,6 +37,7 @@
       DontCheckDefaultBrowser = true;
       NoDefaultBookmarks = true;
       OfferToSaveLogins = false;
+
       EnableTrackingProtection = {
         Value = true;
         Locked = true;
@@ -21,22 +45,5 @@
         Fingerprinting = true;
       };
     };
-    profiles = {
-      settings = {
-    "browser.tabs.warnOnClose" = false;
-    "browser.download.panel.shown" = false;
-    # Since this is a json value, it can be nixified and translated by home-manager;
-    browser = {
-      tabs.warnOnClose = false;
-      download.panel.shown = false;
-    };
-      *.extensions.packages = {
-     with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
-          ublock-origin
-          bitwarden
-          ...
-        ];
-    };
-    
   };
 }
