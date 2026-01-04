@@ -22,6 +22,7 @@
         imports = [
           ./../../modules/home-manager/base.nix
           ./../../modules/home-manager/zen.nix
+          ./../../modules/home-manager/kitty.nix
         ];
       };
     };
