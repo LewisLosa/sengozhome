@@ -42,9 +42,9 @@
   };
 
   users.mutableUsers = false;
-  users.users.${vars.userName} = {
+  users.users.${vars.username} = {
     isNormalUser = true;
-    description = vars.userName;
+    description = vars.username;
     extraGroups = ["networkmanager" "wheel"];
     openssh.authorizedKeys.keys = [
       vars.sshPublicKey

@@ -1,8 +1,8 @@
-{ config, pkgs, vars, ... }:
+{ lib, config, pkgs, vars, ... }:
 
 {
   home.username = "${vars.username}";
-  home.homeDirectory = "/home/${vars.username}";
+  home.homeDirectory = lib.mkForce "/home/${vars.username}";
 
   home.packages = with pkgs; [
     kdePackages.kate

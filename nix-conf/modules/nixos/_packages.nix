@@ -4,7 +4,6 @@
     git
     gptfdisk
     parted
-    cfdisk
     nano
   ];
 }
