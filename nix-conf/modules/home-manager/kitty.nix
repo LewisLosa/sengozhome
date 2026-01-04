@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  vars,
   ...
 }: {
   programs.kitty = {
@@ -17,6 +18,7 @@
       cursor_trail = 1;
       cursor_shape = "block";
       cursor_blink_interval = 0.5;
+      shell = "fish";
     };
   };
 }
