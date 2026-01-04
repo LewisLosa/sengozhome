@@ -5,6 +5,10 @@
   home.homeDirectory = "/home/${vars.username}";
 
   home.packages = with pkgs; [
+    kdePackages.kate
+    windsurf
+    git
+    direnv
     neofetch
     nnn
     firefox
