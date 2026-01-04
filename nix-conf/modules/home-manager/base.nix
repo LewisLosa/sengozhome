@@ -9,7 +9,7 @@
     windsurf
     git
     direnv
-    neofetch
+    fastfetch
     nnn
     firefox
     zip
