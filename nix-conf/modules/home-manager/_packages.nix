@@ -5,7 +5,7 @@
   ...
 }: let
   pkgs-unstable = import inputs.nixpkgs-unstable {
-    system = pkgs.stdenv.hostPlatform.system;
+    inherit (pkgs.stdenv.hostPlatform) system;
     config.allowUnfree = true;
   };
 in {
@@ -15,11 +15,14 @@ in {
         curl
         dig
         figlet
+        lolcat
+        cowsay
         wget
         imagemagick
         openssl
         jq
         kopia
+        statix
         qrencode
         tree
         fastfetch
@@ -29,6 +32,7 @@ in {
         then [
           # Below packages are for personal machines only; excluded from servers
           # inspo: https://discourse.nixos.org/t/how-to-use-hostname-in-a-path/42612/3
+          starship
           maple-mono.NF
           windsurf
           bun
