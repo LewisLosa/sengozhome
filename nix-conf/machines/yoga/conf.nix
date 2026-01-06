@@ -11,6 +11,7 @@
     ./hardware-conf.nix
     ./../../modules/nixos/desktop.nix
     ./../../modules/nixos/base.nix
+    ./../../modules/nixos/printer.nix
   ];
 
   home-manager = {
