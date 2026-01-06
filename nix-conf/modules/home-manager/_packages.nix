@@ -33,7 +33,6 @@ in {
           # Below packages are for personal machines only; excluded from servers
           # inspo: https://discourse.nixos.org/t/how-to-use-hostname-in-a-path/42612/3
           starship
-          maple-mono.NF
           windsurf
           bun
           just
