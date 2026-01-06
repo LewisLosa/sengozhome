@@ -14,5 +14,4 @@
     homeDirectory = lib.mkForce "/home/${vars.username}";
     stateVersion = "25.11";
   };
-
 }

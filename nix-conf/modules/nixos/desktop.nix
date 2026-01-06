@@ -22,5 +22,7 @@
       pulse.enable = true;
     };
   };
+  programs.ssh.enableAskPassword = true;
+  environment.variables.SSH_ASKPASS_REQUIRE = "prefer";
   security.rtkit.enable = true;
 }

@@ -25,6 +25,8 @@
           ./../../modules/home-manager/zen.nix
           ./../../modules/home-manager/kitty.nix
           ./../../modules/home-manager/_zsh.nix
+          ./../../modules/home-manager/fonts.nix
+          ./../../modules/home-manager/git.nix
         ];
       };
     };
