@@ -1,6 +1,0 @@
-[submodule "dots-hyprland"]
-	path = dots-hyprland
-	url = https://github.com/LewisLosa/dots-hyprland.git
-[submodule "nix-chan"]
-	path = nix-chan
-	url = https://github.com/LewisLosa/nix-chan.git
