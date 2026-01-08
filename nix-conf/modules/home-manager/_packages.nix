@@ -26,6 +26,7 @@ in {
         qrencode
         tree
         fastfetch
+        microfetch
       ]
       ++ (
         if osConfig.networking.hostName != "thinky"
@@ -44,6 +45,8 @@ in {
           sops
           statix
           zola
+          localsend
+          kdePackages.kdenlive
         ]
         else [
           # server only

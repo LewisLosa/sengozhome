@@ -10,18 +10,23 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    dotfiles = {
+      url = "git+https://github.com/LewisLosa/dots-hyprland?submodules=1";
+      flake = false;
+    };
+
+    illogical-flake = {
+      url = "github:soymou/illogical-flake";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.dotfiles.follows = "dotfiles";
+    };
+
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs = {
-        # IMPORTANT: we're using "libgbm" and is only available in unstable so ensure
-        # to have it up-to-date or simply don't specify the nixpkgs input
-        nixpkgs.follows = "nixpkgs";
+        nixpkgs.follows = "nixpkgs-unstable";
         home-manager.follows = "home-manager";
       };
-    };
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -38,8 +43,16 @@
 
     mkNixOSConfig = path:
       nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs vars;};
-        modules = [path];
+        specialArgs = {
+          inherit inputs outputs vars;
+          pkgs-unstable = import inputs.nixpkgs-unstable {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
+        };
+        modules = [
+          path
+        ];
       };
   in {
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);

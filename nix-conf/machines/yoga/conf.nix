@@ -18,15 +18,20 @@
     extraSpecialArgs = {inherit inputs outputs vars;};
     useGlobalPkgs = true;
     useUserPackages = true;
+    backupFileExtension = "bak";
+    backupCommand = ''
+      mv -f "$1" "$1.bak"
+    '';
+
     users = {
-      ${vars.username} = {
+      "${vars.username}" = {
         imports = [
           ./../../modules/home-manager/base.nix
           ./../../modules/home-manager/zen.nix
           ./../../modules/home-manager/kitty.nix
-          ./../../modules/home-manager/_zsh.nix
           ./../../modules/home-manager/fonts.nix
           ./../../modules/home-manager/git.nix
+          ./../../modules/home-manager/hyprland.nix
         ];
       };
     };

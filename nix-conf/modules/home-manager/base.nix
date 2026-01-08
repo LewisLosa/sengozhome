@@ -11,7 +11,7 @@
 
   home = {
     username = "${vars.username}";
-    homeDirectory = lib.mkForce "/home/${vars.username}";
+    homeDirectory = "/home/${vars.username}";
     stateVersion = "25.11";
   };
 }

@@ -11,10 +11,9 @@
     syntaxHighlighting.enable = true;
     shellAliases = {
       ".." = "cd ..";
-      neofetch = "fastfetch";
     };
     initContent = ''
-      fastfetch
+      microfetch
       if [ -z "$SSH_AUTH_SOCK" ]; then
         eval "$(ssh-agent -s)" &> /dev/null
         ssh-add ~/.ssh/id_ed25519 &> /dev/null
@@ -38,5 +37,10 @@
       }
     ];
     history.size = 10000;
+  };
+  programs.kitty = {
+    settings = lib.mkForce {
+      shell = "zsh";
+    };
   };
 }

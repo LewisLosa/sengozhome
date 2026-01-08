@@ -7,7 +7,6 @@
   programs.kitty = {
     enable = true;
     settings = lib.mkForce {
-      confirm_os_window_close = 1;
       scrollback_lines = 10000;
       enable_audio_bell = true;
       background_opacity = "0.5";
@@ -18,7 +17,6 @@
       cursor_trail = 1;
       cursor_shape = "block";
       cursor_blink_interval = 0.5;
-      shell = "zsh";
     };
   };
 }

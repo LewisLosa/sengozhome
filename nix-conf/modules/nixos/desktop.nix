@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-unstable,
   vars,
   ...
 }: {
@@ -10,11 +11,16 @@
         layout = "tr";
         variant = "";
       };
+      displayManager.lightdm.enable = false;
     };
-    libinput.enable = true;
     displayManager.sddm.enable = true;
-    desktopManager.plasma6.enable = true;
+
+    libinput.enable = true;
     pulseaudio.enable = false;
+    geoclue2 = {
+      enable = true;
+      package = pkgs-unstable.geoclue2;
+    };
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -25,4 +31,8 @@
   programs.ssh.enableAskPassword = true;
   environment.variables.SSH_ASKPASS_REQUIRE = "prefer";
   security.rtkit.enable = true;
+  programs.hyprland = {
+    enable = true;
+    package = pkgs-unstable.hyprland;
+  };
 }

@@ -18,5 +18,5 @@ rebuild:
     nixos-rebuild switch --flake .
 
 update:
-    nixos flake update
+    nix flake update
 
