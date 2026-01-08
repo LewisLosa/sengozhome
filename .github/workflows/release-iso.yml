@@ -1,12 +1,10 @@
 # inspired: https://github.com/eh8/chenglab/blob/main/.github/workflows/release.yml
 name: "Release custom NixOS ISO"
-
 on:
   push:
     tags:
       - 'v*'
   workflow_dispatch:
-
 jobs:
   build-iso:
     runs-on: ubuntu-latest
@@ -18,59 +16,59 @@ jobs:
         run: |
           echo "Free space:"
           df -h
-
-      # inspired: https://carlosbecker.com/posts/github-actions-disk-space/
+# inspired: https://carlosbecker.com/posts/github-actions-disk-space/
       - name: Clean the battlefield 🧹⚔️
         run: |
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
           sudo docker image prune --all --force
           sudo docker builder prune -a -f
-
       - name: Check free space after cleanup
         run: |
           echo "Free space after cleanup:"
           df -h
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+      
+      - name: Clone nix-chan repository 🌸
+        run: |
+          git clone https://github.com/lewislosa/nix-chan.git nix-chan
+          echo "nix-chan cloned successfully"
+          ls -la nix-chan/
+      
       - name: Install nix-chan~!!
         uses: cachix/install-nix-action@v30
-
+      
       - name: Forge the ISO ⚒️🔥
-        working-directory: nix-conf
+        working-directory: nix-chan
         run: |
           nix_bin=$(which nix)
           sudo $nix_bin build .#nixosConfigurations.isochan.config.system.build.isoImage
-
+      
       - name: Check ISO location 🔍
         run: |
           echo "Looking for ISO files..."
           find . -name "*.iso" -type f 2>/dev/null || true
-          echo "Checking nix-conf/result..."
-          ls -la nix-conf/result/ 2>/dev/null || echo "nix-conf/result not found"
-          ls -la nix-conf/result/iso/ 2>/dev/null || echo "nix-conf/result/iso not found"
-
+          echo "Checking nix-chan/result..."
+          ls -la nix-chan/result/ 2>/dev/null || echo "nix-chan/result not found"
+          ls -la nix-chan/result/iso/ 2>/dev/null || echo "nix-chan/result/iso not found"
+      
       - name: A little salt is added (renaming) 🏷️🌸
         id: rename
         run: |
           short_sha=$(git rev-parse --short HEAD)
           iso_name="nixos-${GITHUB_REF_NAME}-${short_sha}.iso"
-          
-          # ISO dosyasını nix-conf dizininden bul ve taşı
-          iso_file=$(find nix-conf/result/iso -name "nixos-*.iso" -type f | head -n 1)
-          
+          # ISO dosyasını nix-chan dizininden bul ve taşı
+          iso_file=$(find nix-chan/result/iso -name "nixos-*.iso" -type f | head -n 1)
           if [ -z "$iso_file" ]; then
             echo "Error: ISO file not found!"
             exit 1
           fi
-          
           echo "Found ISO: $iso_file"
           sudo mv "$iso_file" "$iso_name"
           echo "iso-name=$iso_name" >> $GITHUB_OUTPUT
-
+      
       - name: Sha256 checksum
         id: hash
         run: |
@@ -79,7 +77,7 @@ jobs:
           hash=$(sha256sum "$iso_name" | awk '{print $1}')
           echo "sha256=$hash" >> $GITHUB_OUTPUT
           echo "SHA256: $hash"
-
+      
       - name: Send ISO to the guild 📤🌸
         uses: actions/upload-artifact@v4
         with:
@@ -88,7 +86,6 @@ jobs:
             nixos-*.iso
             nixos-*.iso.sha256
           retention-days: 7
-
   release:
     needs: build-iso
     if: startsWith(github.ref, 'refs/tags/')
@@ -101,7 +98,7 @@ jobs:
         with:
           name: nixos-iso
           path: .
-
+      
       - name: Create release notes
         run: |
           cat > release_notes.md << 'EOF'
@@ -109,7 +106,7 @@ jobs:
           **iso:** ${{ needs.build-iso.outputs.iso-name }}
           **sha256:** `${{ needs.build-iso.outputs.iso-hash }}`
           EOF
-
+      
       - name: Release the episode 🎬🚀
         uses: softprops/action-gh-release@v2
         with:
