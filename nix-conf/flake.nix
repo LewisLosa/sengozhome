@@ -59,6 +59,14 @@
 
     nixosConfigurations = {
       yoga = mkNixOSConfig ./machines/yoga/conf.nix;
+      isochan = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs outputs vars;};
+        modules = [
+          (nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
+          ./machines/isochan/conf.nix
+        ];
+      };
     };
   };
 }
