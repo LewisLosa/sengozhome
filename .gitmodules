@@ -3,4 +3,4 @@
 	url = https://github.com/LewisLosa/dots-hyprland.git
 [submodule "nix-chan"]
 	path = nix-chan
-	url = git@github.com:LewisLosa/nix-chan.git
+	url = https://github.com/LewisLosa/nix-chan.git
