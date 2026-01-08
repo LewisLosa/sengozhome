@@ -32,12 +32,12 @@ jobs:
           df -h
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Install nix-chan~!!
-        uses: cachix/install-nix-action@v31
+        uses: cachix/install-nix-action@v30
 
       - name: Forge the ISO ⚒️🔥
         working-directory: nix-conf
@@ -45,12 +45,30 @@ jobs:
           nix_bin=$(which nix)
           sudo $nix_bin build .#nixosConfigurations.isochan.config.system.build.isoImage
 
+      - name: Check ISO location 🔍
+        run: |
+          echo "Looking for ISO files..."
+          find . -name "*.iso" -type f 2>/dev/null || true
+          echo "Checking nix-conf/result..."
+          ls -la nix-conf/result/ 2>/dev/null || echo "nix-conf/result not found"
+          ls -la nix-conf/result/iso/ 2>/dev/null || echo "nix-conf/result/iso not found"
+
       - name: A little salt is added (renaming) 🏷️🌸
         id: rename
         run: |
           short_sha=$(git rev-parse --short HEAD)
           iso_name="nixos-${GITHUB_REF_NAME}-${short_sha}.iso"
-          sudo mv result/iso/nixos-*.iso "$iso_name"
+          
+          # ISO dosyasını nix-conf dizininden bul ve taşı
+          iso_file=$(find nix-conf/result/iso -name "nixos-*.iso" -type f | head -n 1)
+          
+          if [ -z "$iso_file" ]; then
+            echo "Error: ISO file not found!"
+            exit 1
+          fi
+          
+          echo "Found ISO: $iso_file"
+          sudo mv "$iso_file" "$iso_name"
           echo "iso-name=$iso_name" >> $GITHUB_OUTPUT
 
       - name: Sha256 checksum
@@ -63,7 +81,7 @@ jobs:
           echo "SHA256: $hash"
 
       - name: Send ISO to the guild 📤🌸
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: nixos-iso
           path: |
@@ -79,19 +97,17 @@ jobs:
       contents: write
     steps:
       - name: Retrieve the sacred ISO 📥✨
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v4
         with:
           name: nixos-iso
           path: .
 
       - name: Create release notes
         run: |
-          cat > release_notes.md << EOF
+          cat > release_notes.md << 'EOF'
           ## 🌸✨ hey there! its new iso release :3 ✨🌸
-          
           **iso:** ${{ needs.build-iso.outputs.iso-name }}
-          **sha256:** \`${{ needs.build-iso.outputs.iso-hash }}\`
-          
+          **sha256:** `${{ needs.build-iso.outputs.iso-hash }}`
           EOF
 
       - name: Release the episode 🎬🚀
