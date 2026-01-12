@@ -1,5 +1,4 @@
 {
     "nix.enableLanguageServer": true,
     "nixEnvSelector.useFlakes": true,
-    "editor.defaultFormatter": "jnoortheen.nix-ide"
 }
