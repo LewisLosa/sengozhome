@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../dotfiles"
+		}
+	],
+	"settings": {
+		"nix.enableLanguageServer": true,
+		"nixEnvSelector.useFlakes": true
+	}
+}
