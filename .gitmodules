@@ -3,4 +3,4 @@
 	url = https://github.com/LewisLosa/flake.git
 [submodule "dotfiles"]
 	path = dotfiles
-	url = https://github.com/LewisLosa/dotfiles.git
+	url = git@github.com:LewisLosa/dotfiles.git
