@@ -1,3 +1,6 @@
 [submodule "flake"]
 	path = flake
 	url = https://github.com/LewisLosa/flake.git
+[submodule "dotfiles"]
+	path = dotfiles
+	url = git@github.com:LewisLosa/dotfiles.git
